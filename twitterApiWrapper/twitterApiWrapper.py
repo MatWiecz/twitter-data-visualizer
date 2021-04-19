@@ -18,12 +18,16 @@ class TwitterApiWrapper:
         self.cache = cache
 
     def getFollowersListForUser(self, userId=None, screenName=None):
-        return self.twitterApi.GetFollowerIDs(user_id=userId,
-                                              screen_name=screenName,
-                                              count=5000,
-                                              total_count=5000)
+        if self.cache is not None:
+            return self.cache.execute(self.twitterApi, 'GetFollowerIDs',
+                                      user_id=userId,
+                                      screen_name=screenName,
+                                      count=5000,
+                                      total_count=5000)
 
     def getUserFromUserId(self, userId=None, screenName=None):
-        return self.twitterApi.GetUser(user_id=userId,
-                                       screen_name=screenName,
-                                       return_json=False)
+        if self.cache is not None:
+            return self.cache.execute(self.twitterApi, 'GetUser',
+                                      user_id=userId,
+                                      screen_name=screenName,
+                                      return_json=True)
